@@ -77,20 +77,20 @@
             <!-- <el-button type="primary" style="margin-left: 5px" @click="search()">查询</el-button> -->
 
 
-            <el-button type="primary" @click="dialogTableVisible = true;search()">查询</el-button>
+            <el-button type="primary" @click="search()">查询</el-button>
 
-            <el-dialog title="门店信息" :visible.sync="dialogTableVisible">
-              <el-table :data="gridData">
-                <el-table-column property="nId" label="门店编号" width="150"></el-table-column>
-                <el-table-column property="address" label="门店地址" width="200"></el-table-column>
-                <el-table-column property="name" label="门店名" width="200"></el-table-column>
-                <el-table-column property="license" label="许可证" width="200"></el-table-column>
-                <el-table-column property="merchantId" label="商家编号" width="200"></el-table-column>
-                <el-table-column property="startTime" label="营业开始时间" width="200"></el-table-column>
-                <el-table-column property="endTime" label="营业暂停时间" width="200"></el-table-column>
-                <el-table-column property="remainingAmount" label="账户剩余金额"></el-table-column>
-              </el-table>
-            </el-dialog>
+<!--            <el-dialog title="门店信息" :visible.sync="dialogTableVisible">-->
+<!--              <el-table :data="gridData">-->
+<!--                <el-table-column property="nId" label="门店编号" width="150"></el-table-column>-->
+<!--                <el-table-column property="address" label="门店地址" width="200"></el-table-column>-->
+<!--                <el-table-column property="name" label="门店名" width="200"></el-table-column>-->
+<!--                <el-table-column property="license" label="许可证" width="200"></el-table-column>-->
+<!--                <el-table-column property="merchantId" label="商家编号" width="200"></el-table-column>-->
+<!--                <el-table-column property="startTime" label="营业开始时间" width="200"></el-table-column>-->
+<!--                <el-table-column property="endTime" label="营业暂停时间" width="200"></el-table-column>-->
+<!--                <el-table-column property="remainingAmount" label="账户剩余金额"></el-table-column>-->
+<!--              </el-table>-->
+<!--            </el-dialog>-->
             <el-button
                 type="danger"
                 style="margin-left: 5px"
@@ -100,6 +100,12 @@
             >
             <el-dialog title="门店信息" :visible.sync="dialogFormVisible">
               <el-form :model="form">
+                <el-form-item label="门店编号" :label-width="formLabelWidth">
+                  <el-input
+                      v-model="form.nId"
+                      autocomplete="off"
+                  ></el-input>
+                </el-form-item>
                 <el-form-item label="地址" :label-width="formLabelWidth">
                   <el-input
                       v-model="form.address"
@@ -220,7 +226,7 @@ export default {
       let baseurl = "http://127.0.0.1:9999";
       this.axios({
         method: "get",
-        url: baseurl + '/store/get',
+        url: baseurl + '/store/list',
         headers: {
           Authorization: "Bearer" + " " + localStorage.getItem("token"),
         },
@@ -228,9 +234,7 @@ export default {
           storeId: this.inputid
         }
       }).then(res => {
-        this.gridData.unshift(res.data.data)
-        console.log(this.gridData);
-
+        this.tableData=res.data.data;
       })
     },
     add() {
@@ -242,6 +246,7 @@ export default {
           Authorization: "Bearer" + " " + localStorage.getItem("token"),
         },
         data: {
+          nid: this.form.nId,
           address: this.form.address,
           endTime: this.form.endTime,
           license: this.form.license,
@@ -262,7 +267,9 @@ export default {
         headers: {
           Authorization: "Bearer" + " " + localStorage.getItem("token"),
         },
-
+        params: {
+          storeId: ""
+        }
       }).then(res => {
         this.tableData = res.data.data
       })
