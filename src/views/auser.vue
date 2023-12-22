@@ -47,7 +47,7 @@
             <i class="el-icon-s-fold" style="font-size: 23px"></i>
           </div>
           <div style="flex: 1; text-align: center; font-size: 30px">
-            <span>欢迎来到智慧菜市场管理系统</span>
+            <span>欢迎来到智慧蔬果坊管理系统</span>
           </div>
           <el-dropdown>
             <span>管理员</span
@@ -66,20 +66,19 @@
       <el-main style="height: 100%">
         <div>
           <div style="margin-bottom: 5px">
-            <!-- <el-input placeholder="请输入商品名称" suffix-icon="el-icon-search" style="width:250px"></el-input> -->
-<!--            <el-input-->
-<!--              v-model="input"-->
-<!--              placeholder="请输入内容"-->
-<!--              suffix-icon="el-icon-search"-->
-<!--              style="width: 250px"-->
-<!--            ></el-input>-->
-<!--            <el-button type="primary" style="margin-left: 5px" @click="search"-->
-<!--              >查询</el-button-->
-<!--            >-->
+            <el-input
+              v-model="input"
+              placeholder="请输入内容"
+              suffix-icon="el-icon-search"
+              style="width: 250px"
+            ></el-input>
+            <el-button type="primary" style="margin-left: 5px" @click="search"
+              >查询</el-button
+            >
             <!-- <el-button type="danger" style="margin-left: 5px" @click="loadPost">添加商品</el-button> -->
             <el-button
                 type="danger"
-                style="margin-left: 5px;float: left;"
+                style="margin-left: 5px;"
                 @click="dialogFormVisible = true"
             >添加用户</el-button
             >
@@ -274,7 +273,7 @@ export default {
       let baseurl = "http://127.0.0.1:9999";
       this.axios({
         method: "get",
-        url: baseurl + "/item/search",
+        url: baseurl + "/admin/search",
         headers: {
           Authorization: "Bearer" + " " + localStorage.getItem("token"),
         },

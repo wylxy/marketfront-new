@@ -47,7 +47,7 @@
             <i class="el-icon-s-fold" style="font-size: 23px"></i>
           </div>
           <div style="flex: 1; text-align: center; font-size: 30px">
-            <span>欢迎来到智慧菜市场管理系统</span>
+            <span>欢迎来到智慧蔬果坊管理系统</span>
           </div>
           <el-dropdown>
             <span>商家</span
@@ -97,9 +97,9 @@
                 <el-form-item label="标签" :label-width="formLabelWidth">
                   <el-input v-model="form.label" autocomplete="off"></el-input>
                 </el-form-item>
-                <el-form-item label="门店编号" :label-width="formLabelWidth">
-                  <el-input v-model="form.nid" autocomplete="off"></el-input>
-                </el-form-item>
+<!--                <el-form-item label="门店编号" :label-width="formLabelWidth">-->
+<!--                  <el-input v-model="form.nid" autocomplete="off"></el-input>-->
+<!--                </el-form-item>-->
                 <el-form-item label="特价" :label-width="formLabelWidth">
                   <el-input
                     v-model="form.specialPrice"
@@ -145,9 +145,9 @@
                 <el-form-item label="标签" :label-width="formLabelWidth">
                   <el-input v-model="form.label" autocomplete="off"></el-input>
                 </el-form-item>
-                <el-form-item label="门店编号" :label-width="formLabelWidth">
-                  <el-input v-model="form.nid" autocomplete="off"></el-input>
-                </el-form-item>
+<!--                <el-form-item label="门店编号" :label-width="formLabelWidth">-->
+<!--                  <el-input v-model="form.nid" autocomplete="off"></el-input>-->
+<!--                </el-form-item>-->
                 <el-form-item label="特价" :label-width="formLabelWidth">
                   <el-input
                       v-model="form.specialPrice"
@@ -193,8 +193,8 @@
             </el-table-column>
             <el-table-column prop="productId" label="商品编号" width="180px">
             </el-table-column>
-            <el-table-column prop="nId" label="门店编号" width="180px">
-            </el-table-column>
+<!--            <el-table-column prop="nId" label="门店编号" width="180px">-->
+<!--            </el-table-column>-->
             <el-table-column prop="unitPrice" label="原价" width="80px">
             </el-table-column>
             <el-table-column prop="specialPrice" label="特价" width="80px">
@@ -316,7 +316,7 @@ export default {
           exp: this.form.exp,
           itemName: this.form.itemName ,
           label: this.form.label,
-          nid: this.form.nid,
+          nid: localStorage.getItem("username"),
           specialPrice: this.form.specialPrice,
           tradeSize: this.form.tradeSize,
           unitPrice: this.form.unitPrice,

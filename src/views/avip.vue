@@ -37,7 +37,7 @@
       <i class="el-icon-s-fold" style="font-size:23px;"></i>
     </div>
     <div style="flex:1;text-align: center;font-size:30px">
-      <span>欢迎来到智慧菜市场管理系统</span>
+      <span>欢迎来到智慧蔬果坊管理系统</span>
     </div>
     <el-dropdown>
       <span>管理员</span><i class="el-icon-arrow-down" style="margin-left: 5px"></i>

@@ -172,6 +172,7 @@ export default {
     },
       chandlelogin()
     {
+      let name = this.name;
       let baseurl = "http://127.0.0.1:9999"
       this.axios({
         method:"post",
@@ -186,8 +187,8 @@ export default {
       }).then(res=>{
          localStorage.setItem("mid",res.data.data.mid)
          localStorage.setItem('token',res.data.data.token)
-         localStorage.setItem('username',this.name)
-        alert(res.data.message)
+         localStorage.setItem('username',name)
+         alert(res.data.message)
          this.$router.push('/cgood')
       })
     },
