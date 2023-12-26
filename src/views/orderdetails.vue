@@ -67,29 +67,63 @@
           >
             <el-table-column prop="orderId" label="订单号" width="400px">
             </el-table-column>
-            <el-table-column prop="productId" label="商品编号" width="400px">
+            <el-table-column prop="itemName" label="商品名称" width="400px">
             </el-table-column>
 
             <el-table-column prop="number" label="数量">
 
             </el-table-column>
+            <el-table-column prop="action"  label="操作">
+              <template slot-scope="scope">
+              <el-button size="small" type="success" @click="dialogVisible=true;itemId=scope.row.productId" v-if="status==='已完成'">评价商品</el-button>
+              </template>
+            </el-table-column>
+
           </el-table>
           <el-button type="primary" style="margin-left: 5px;margin-top: 10px" @click="cancel">退出</el-button>
         </div>
+
+        <el-dialog
+            title="提示"
+            :visible.sync="dialogVisible"
+            width="30%"
+            :before-close="handleClose">
+          <el-form ref="form" :model="form" label-width="80px">
+            <el-form-item label="评价">
+              <el-input type="textarea" v-model="form.comment" maxlength="254"></el-input>
+            </el-form-item>
+            <el-form-item>
+              <el-button>取消</el-button>
+              <el-button type="primary" @click="onSubmit">確定</el-button>
+            </el-form-item>
+          </el-form>
+        </el-dialog>
       </el-main>
     </el-container>
   </el-container>
 </template>
 
 <script>
+import {Message} from "element-ui";
+
 export default {
   data() {
     return {
       tableData: [],
+      dialogVisible:false,
+      status:'',
+      itemId:0,
+      form: {
+        comment: ''
+      },
+      // orderId:
     }
   },
   created() {
     this.tableData = this.$route.query.tableData
+    console.log(this.tableData)
+    this.status = this.$route.query.status
+    // orderId = this.$route.query.orderId
   },
   methods: {
     cancel() {
@@ -100,6 +134,26 @@ export default {
     },
     logout() {
       this.$router.push('/')
+    },
+    onSubmit(){
+      let baseurl = "http://127.0.0.1:8888";
+      console.log(this.itemId)
+      this.axios({
+        method: "post",
+        url: baseurl + "/order/commentOrder",
+        headers: {
+          'Authorization': 'Bearer' + ' ' + localStorage.getItem('token')
+        },
+        params: {
+          productId: this.itemId,
+          orderId:1,
+          userId:localStorage.getItem('userId'),
+          comment:this.form.comment,
+        },
+      }).then((res) => {
+        Message.success("评价完成")
+        location.reload();
+      });
     },
   },
 }
