@@ -131,12 +131,16 @@ export default {
         username:this.name,
         password:this.password,
       }).then(res=>{
-        localStorage.setItem('token',res.data.data.token)
-        localStorage.setItem('userId',res.data.data.userId)
-        localStorage.setItem('username',this.name)
-        console.log(this.name);
-        this.$router.push('/good')
-
+        if(res.data.code==2200){
+          localStorage.setItem('token',res.data.data.token)
+          localStorage.setItem('userId',res.data.data.userId)
+          localStorage.setItem('username',this.name)
+          alert(res.data.message)
+          console.log(this.name);
+          this.$router.push('/good')
+        }else{
+          alert(res.data.message)
+        }
       })
 //       let baseurl = "http://192.168.101.10:8888"
 //       this.axios({
@@ -166,7 +170,7 @@ export default {
         localStorage.setItem("mid",res.data.data.mid)
         localStorage.setItem('token',res.data.data.token)
         localStorage.setItem('username',this.name)
-        alert(res.data.message)
+
         this.$router.push('/auser')
       })
     },
@@ -185,11 +189,18 @@ export default {
            password:this.password,
         }
       }).then(res=>{
-         localStorage.setItem("mid",res.data.data.mid)
-         localStorage.setItem('token',res.data.data.token)
-         localStorage.setItem('username',name)
-         alert(res.data.message)
-         this.$router.push('/cgood')
+        if(res.data.code==2200){
+          localStorage.setItem('token',res.data.data.token)
+          localStorage.setItem('username',name)
+          localStorage.setItem("mid",res.data.data.mid)
+          alert(res.data.message)
+          this.$router.push('/cgood')
+        }else{
+          alert(res.data.message)
+        }
+
+
+
       })
     },
     handleregister()

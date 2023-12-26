@@ -26,7 +26,7 @@
           <span>会员</span>
         </el-menu-item>
 
-        <el-menu-item index="/cshop">
+        <el-menu-item index="/ashop">
           <i class="el-icon-user"></i>
           <span>门店</span>
         </el-menu-item>
@@ -101,11 +101,16 @@
             <el-dialog title="门店信息" :visible.sync="dialogFormVisible">
               <el-form :model="form">
                 <el-form-item label="门店编号" :label-width="formLabelWidth">
-                  <el-input
-                      v-model="form.nId"
-                      autocomplete="off"
-                  ></el-input>
+                  <el-select v-model="form.nId" width="600px">
+                    <el-option v-for="nId in nIds" :label="nId.userName" :value="nId.merchantId" :key="nId.merchantId"></el-option>
+                  </el-select>
                 </el-form-item>
+<!--                <el-form-item label="门店编号" :label-width="formLabelWidth">-->
+<!--                  <el-input-->
+<!--                      v-model="form.nId"-->
+<!--                      autocomplete="off"-->
+<!--                  ></el-input>-->
+<!--                </el-form-item>-->
                 <el-form-item label="地址" :label-width="formLabelWidth">
                   <el-input
                       v-model="form.address"
@@ -198,6 +203,7 @@
 export default {
   data() {
     return {
+      nIds: [],
       tableData: [],
       gridData: [],
       input: "",
@@ -217,6 +223,7 @@ export default {
   created() {
     this.getlist()
     this.gridData.shift()
+    this.getMerchantlist()
   },
   methods: {
     logout() {
@@ -258,6 +265,19 @@ export default {
         alert(res.data.message)
         location.reload();
       });
+    },
+    getMerchantlist() {
+      let baseurl = "http://127.0.0.1:9999";
+      this.axios({
+        method: "get",
+        url: baseurl + '/merchant/getList',
+        headers: {
+          Authorization: "Bearer" + " " + localStorage.getItem("token"),
+        },
+      }).then(res => {
+        console.log(res);
+        this.nIds = res.data.data
+      })
     },
     getlist() {
       let baseurl = "http://127.0.0.1:9999";
@@ -304,4 +324,8 @@ export default {
 .el-aside {
   color: #333;
 }
+.el-select{
+  width: 600px;
+}
+
 </style>

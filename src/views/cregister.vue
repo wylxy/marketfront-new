@@ -1,8 +1,8 @@
 <!--
  * @Author: chensanqi 1915656015@qq.com
- * @Date: 2022-12-08 15:47:52
+ * @Date: 2023-12-08 15:47:52
  * @LastEditors: chensanqi 1915656015@qq.com
- * @LastEditTime: 2022-12-12 14:45:10
+ * @LastEditTime: 2023-12-12 14:45:10
  * @FilePath: \fruit\src\views\register.vue
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -26,6 +26,7 @@
         <div class="form">
           <label>电话：</label><input type="phone" v-model.trim="phone"><br/>
         </div>
+        <button type="button" @click="callback">返回</button>
         <button @click.prevent="handlefinish">提交</button>
       </div>
     </div>
@@ -108,6 +109,9 @@ export default {
       indentifyNumber:""
   };
   },methods:{
+    callback(){
+      this.$router.push('/')
+    },
   //点击完成按钮触发handlefinish
     handlefinish()
     {
@@ -129,6 +133,8 @@ export default {
           if(res.data.message == "注册成功"){
              this.$router.push('/')
               alert("注册成功");
+          }else{
+            alert("请填入正确的数据");
           }
         })
        // this.$router.push('/login');//完成注册后跳转至登录页面

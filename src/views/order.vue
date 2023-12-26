@@ -1,8 +1,8 @@
 <!--
  * @Author: chensanqi 1915656015@qq.com
- * @Date: 2022-12-08 17:00:30
+ * @Date: 2023-12-08 17:00:30
  * @LastEditors: chensanqi 1915656015@qq.com
- * @LastEditTime: 2022-12-12 21:13:07
+ * @LastEditTime: 2023-12-12 21:13:07
  * @FilePath: \fruit\src\views\main.vue
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -86,7 +86,6 @@
                 <el-button size="small" type="danger" @click="getDetail(scope.row.orderId,scope.row.orderState)">查看详情</el-button>
                 <el-button size="small" type="success" @click="pay(scope.row.orderId)" v-if="scope.row.orderState=='未支付'">支付订单</el-button>
                 <el-button size="small" type="success" @click="finish(scope.row.orderId)" v-if="scope.row.orderState=='配送中'">完成订单</el-button>
-
               </template>
             </el-table-column>
           </el-table>
