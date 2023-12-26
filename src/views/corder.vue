@@ -72,6 +72,8 @@
     <el-table-column prop="operate" label="操作">
       <template slot-scope="scope">
       <el-button size="small" type="danger" @click="deleteOrder(scope.row.orderId)">取消订单</el-button>
+      <el-button size="small" type="success" @click="updateOrderStatus(scope.row.orderId)"
+                 v-if="scope.row.orderState=='已支付'?true:false">配送</el-button>
       </template>
     </el-table-column>
   </el-table>
@@ -82,12 +84,15 @@
 </template>
 
 <script>
+  import {Message} from "element-ui";
+
   export default {
     data() {
 
       return {
          tableData: [],
-         input: ''
+         input: '',
+         visible: false,
       }
     },
     created() {
@@ -113,7 +118,23 @@
        location.reload();
       })
       },
-   getOrder(){
+      updateOrderStatus(id){
+        let baseurl = "http://127.0.0.1:9999";
+        this.axios({
+          method:"post",
+          url:baseurl+'/order/updateStatus',
+          headers: {
+            Authorization: "Bearer" + " " + localStorage.getItem("token"),
+          },
+          params:{
+            orderId:id,
+          }
+        }).then(res=>{
+          Message.success("配送成功")
+          location.reload();
+        })
+      },
+      getOrder(){
       let baseurl = "http://127.0.0.1:9999";
       this.axios({
           method:"get",
@@ -126,8 +147,9 @@
         }
       }).then(res=>{
        this.tableData = res.data.data
+        console.log(res.data.data)
       })
-   }
+   },
     },
   };
 </script>

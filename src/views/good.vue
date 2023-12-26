@@ -112,6 +112,12 @@
                   @click="addCart(scope.row.productId)"
                   >添加</el-button
                 >
+                <el-button
+                    size="small"
+                    type="primary"
+                    @click="searchComment(scope.row.productId)"
+                >查看评论</el-button
+                >
               </template>
             </el-table-column>
           </el-table>
@@ -124,6 +130,25 @@
             购物车
           </button>
         </div>
+
+        <el-dialog
+            title="商品评价"
+            :visible.sync="dialogVisible"
+            width="30%"
+            >
+          <div v-for="item in commentData" key="item">
+          <el-card class="box-card" style="margin-bottom: 20px">
+            <div slot="header" class="clearfix">
+              <span style="float: left;">{{item.userId}}</span>
+              <span style="float: right; padding: 3px 0;color: #4e5ef3" >{{item.commentDate}}</span>
+            </div>
+            <div>
+              {{item.comment}}
+            </div>
+          </el-card>
+          </div>
+          <span v-if="!commentData">暂无该商品评价</span>
+        </el-dialog>
       </el-main>
 
 
@@ -139,6 +164,8 @@ export default {
       tableData: [],
       input: "",
       searchData: [],
+      dialogVisible:false,
+      commentData:[],
     };
   },
   created() {
@@ -179,7 +206,7 @@ export default {
         },
       }).then((res) => {
         this.searchData = res.data.data;
-      });
+      }).catch((e) => {});
     },
     addCart(id) {
       let baseurl = "http://127.0.0.1:8888";
@@ -196,6 +223,25 @@ export default {
         },
       }).then((res) => {});
     },
+    searchComment(id){
+      let baseurl = "http://127.0.0.1:8888";
+      this.axios({
+        method: "get",
+        url: baseurl + "/item/comment",
+        headers:{
+          'Authorization': 'Bearer'+' '+localStorage.getItem('token')
+        },
+        params: {
+          // userId: localStorage.getItem("userId"),
+          // quantity: "1",
+          itemId: id,
+        },
+      }).then((res) => {
+        console.log(res)
+        this.commentData = res.data.data
+        this.dialogVisible = true;
+      });
+    }
   },
 };
 </script>
