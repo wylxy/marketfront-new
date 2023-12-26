@@ -83,8 +83,9 @@
             </el-table-column>
             <el-table-column prop="operate" label="操作">
               <template slot-scope="scope">
-                <el-button size="small" type="danger" @click="getDetail(scope.row.orderId)">查看详情</el-button>
-                <el-button size="small" type="success" @click="pay(scope.row.orderId)">欢迎来到智慧蔬果坊管理系统</el-button>
+                <el-button size="small" type="danger" @click="getDetail(scope.row.orderId,scope.row.orderState)">查看详情</el-button>
+                <el-button size="small" type="success" @click="pay(scope.row.orderId)" v-if="scope.row.orderState=='未支付'">支付订单</el-button>
+                <el-button size="small" type="success" @click="finish(scope.row.orderId)" v-if="scope.row.orderState=='配送中'">完成订单</el-button>
               </template>
             </el-table-column>
           </el-table>
@@ -95,12 +96,16 @@
 </template>
 
 <script>
+import {Message} from "element-ui";
+
 export default {
   data() {
 
     return {
       tableData: [],
-      input: ''
+      input: '',
+      dialogVisible:false,
+      itemId:0,
     }
   },
   created() {
@@ -126,10 +131,26 @@ export default {
         location.reload();
       });
     },
+    finish(id) {
+      let baseurl = "http://127.0.0.1:8888";
+      this.axios({
+        method: "post",
+        url: baseurl + "/order/updateStatus",
+        headers: {
+          'Authorization': 'Bearer' + ' ' + localStorage.getItem('token')
+        },
+        params: {
+          orderId: id
+        },
+      }).then((res) => {
+        Message.success("配送完成")
+        location.reload();
+      });
+    },
     userCenter() {
       this.$router.push("/usercenter");
     },
-    getDetail(id) {
+    getDetail(id,status) {
       let baseurl = "http://127.0.0.1:8888";
       this.axios({
         method: "get",
@@ -142,7 +163,7 @@ export default {
         },
       }).then(res => {
         // console.log(res.data.data);
-        this.$router.push({path: '/orderdetails', query: {tableData: res.data.data}})
+        this.$router.push({path: '/orderdetails', query: {tableData: res.data.data,status:status}})
       })
     },
     getOrders() {
@@ -159,9 +180,9 @@ export default {
         },
       }).then(res => {
         this.tableData = res.data.data
-
+        console.log(res.data.data)
       })
-    }
+    },
   },
 };
 </script>
