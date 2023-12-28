@@ -84,7 +84,7 @@
         </div>
 
         <el-dialog
-            title="提示"
+            title="商品评价"
             :visible.sync="dialogVisible"
             width="30%"
             :before-close="handleClose">
