@@ -152,7 +152,7 @@ export default {
         },
       }).then((res) => {
         Message.success("评价完成")
-        location.reload();
+        this.dialogVisible = false;
       });
     },
   },
